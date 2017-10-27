@@ -148,15 +148,17 @@
     char operationSymbol = '+';
     NSUInteger i = 0;
 
+     // ++ -- +- -+
+    fromulaString = [fromulaString stringByReplacingOccurrencesOfString:@"++" withString:@"+"];
+    fromulaString = [fromulaString stringByReplacingOccurrencesOfString:@"--" withString:@"+"];
+    fromulaString = [fromulaString stringByReplacingOccurrencesOfString:@"+-" withString:@"-"];
+    fromulaString = [fromulaString stringByReplacingOccurrencesOfString:@"-+" withString:@"-"];
+ 
     N_J_LOG(@"fromulaString:%@",fromulaString);
     char pre_c = [fromulaString characterAtIndex:0];;
     for (; i < fromulaString.length; ++i) {
         char c = [fromulaString characterAtIndex:i];
         if (c == '+' || c == '-') {
-            N_J_LOG(@"c:%c,pre_c:%c",c,pre_c);
-            if (pre_c == '+' || pre_c == '-') { //可能是两个运算符
-                continue;
-            }
             NSString *number = [fromulaString substringWithRange:NSMakeRange(start, i - start)];
             N_J_LOG(@"number:%@",number);
             if (operationSymbol == '+') {
