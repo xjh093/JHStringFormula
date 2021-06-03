@@ -226,7 +226,15 @@
 
 + (BOOL)xx_validate_string:(NSString *)formula{
     BOOL flag = YES;
+    NSSet *set = [NSSet setWithArray:@[@"(",@")",@"+",@"-",@"*",@"/",@".",@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"]];
     for (NSUInteger i = 0; i < formula.length; ++i) {
+#if 1
+        NSString *c = [formula substringWithRange:NSMakeRange(i,1)];
+        if (![set containsObject:c]) {
+            flag = NO;
+            break;
+        }
+#else
         char c = [formula characterAtIndex:i];
         if (c != '(' &&
             c != ')' &&
@@ -247,6 +255,7 @@
             c != '9' ) {
             flag = NO;
         }
+#endif
     }
     return flag;
 }
